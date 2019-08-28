@@ -16,7 +16,7 @@ export default class UpTimeCommand extends CommandNode {
             fields: [
                 {
                     name: '此 Bot 上次啟動時間',
-                    value: launch.toLocaleString('zh-TW'),
+                    value: launch.toLocaleString('zh-TW', {timeZone: 'Asia/Hong_Kong'}),
                 },
                 {
                     name: '現今距離上次啟動時間',

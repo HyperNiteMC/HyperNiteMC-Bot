@@ -5,9 +5,11 @@ import ChannelManager from "../managers/ChannelManager";
 import TrainerCommand from "../commands/trainer/TrainerCommand";
 import IPCommand from "../commands/IPCommand";
 import UpTimeCommand from "../commands/UpTimeCommand";
-import * as moment from "moment";
+import moment from "moment";
+import 'moment-timezone';
 
 moment.locale('zh-TW');
+moment.tz.setDefault('Asia/Hong_Kong');
 
 class Bot {
 
