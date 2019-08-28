@@ -1,0 +1,21 @@
+{
+  "name": "hypernitemc",
+  "version": "1.0.0",
+  "description": "Test shit bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node --project src/tsconfig.json src/index.ts",
+    "build": "tsc -b -w src"
+  },
+  "keywords": [],
+  "author": "Hydranapse_",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  }
+}
