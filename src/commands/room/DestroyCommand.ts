@@ -12,7 +12,7 @@ export default class DestroyCommand extends CommandNode {
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
         if (!ChannelManager.isUsing(guildMember.user)) {
-            channel.send(guildMember.user.tag + " 你沒有創建過房間。");
+            channel.send(`${guildMember.user.tag}  你沒有創建過房間。`);
             return;
         }
         const promies: Promise<GuildChannel>[] = ChannelManager.delChannel(guildMember.user);

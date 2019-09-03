@@ -1,6 +1,7 @@
 import CommandNode from "../managers/command/CommandNode";
 import {GuildMember, TextChannel} from "discord.js";
 import BotUtils from "../utils/BotUtils";
+import info from '../secret/ip.json';
 
 export default class IPCommand extends CommandNode {
 
@@ -9,7 +10,7 @@ export default class IPCommand extends CommandNode {
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
-        channel.send(`目前僅限內部人員進入, 詳情請留意 ${BotUtils.getGuild().channels.get('586556883473661982').name}`);
+        channel.send(info.ip.replace(`<tag>`, `${BotUtils.getGuild().channels.get('586556883473661982').name}`));
     }
 
 }

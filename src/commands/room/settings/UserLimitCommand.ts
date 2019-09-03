@@ -17,7 +17,7 @@ export default class UserLimitCommand extends CommandNode {
             return;
         }
         if (!ChannelManager.isUsing(guildMember.user)) {
-            channel.send(guildMember.user.tag + " 你沒有創建過房間。");
+            channel.send(`${guildMember.user.tag}  你沒有創建過房間。`);
             return;
         }
         ChannelManager.getChannel<VoiceChannel>(guildMember.user, 'voice').setUserLimit(value).then(() => {

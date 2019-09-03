@@ -105,12 +105,43 @@ const delPlayer = (user: User, joiner: User): boolean => {
     return true;
 };
 
+const fakeDelMap: Map<Snowflake, Snowflake[]> = new Map<Snowflake, Snowflake[]>();
+
+const fakeDelChannel = (owner: User): boolean => {
+    const matches: Collection<Snowflake, GuildChannel> = BotUtils.getGuild().channels.filter(g => g.name.startsWith(owner.id));
+    if (matches.size == 0) return false;
+    matches.forEach(g => {
+        fakeDelMap.set(owner.id, g.permissionOverwrites.keyArray());
+        g.replacePermissionOverwrites({
+            overwrites: [{
+                id: BotUtils.getGuild().defaultRole.id,
+                deny: "VIEW_CHANNEL"
+            }]
+        }).then(() => {
+            console.log(`成功虛擬刪除 ${owner.tag} 的頻道。`)
+        });
+    });
+    return true;
+};
+
+const restoreChannel = (owner: User): boolean => {
+    if (!addPlayer(owner, owner)) return false;
+    if (!fakeDelMap.has(owner.id)) return false;
+    fakeDelMap.get(owner.id).forEach(id => {
+        const user: User = BotUtils.getGuild().members.get(id).user;
+        if (user == undefined) return;
+        addPlayer(owner, user);
+    });
+    console.log(`成功恢復頻道及其成員。`);
+    return true;
+};
+
 const checkIdle = async (mem: GuildMember) => {
     if (!isUsing(mem.user)) return Promise.resolve();
     const bool = await idleChannel(mem);
     if (!bool || !contain(mem.user, mem)) return Promise.resolve();
     console.log(`Found ${mem.displayName} is idle Channel`);
-    if (!delPlayer(mem.user, mem.user)) return Promise.resolve();
+    if (!fakeDelChannel(mem.user)) return Promise.resolve();
     console.log("Successfully deleted.");
     let m = await mem.send(`你的頻道因為閒置超過十五分鐘已被刪除。若果想恢復頻道，請在三分鐘內添加 :x: 的表情到此訊息上。`);
     const msg: Message = m instanceof Message ? m : m[0];
@@ -119,7 +150,7 @@ const checkIdle = async (mem: GuildMember) => {
         maxEmojis: 1
     });
     if (col.size) {
-        addPlayer(mem.user, mem.user);
+        restoreChannel(mem.user);
         console.log(`${mem.displayName} has restored its channel`);
         await mem.send(`你的頻道已被恢復。`);
         const tc: TextChannel = BotUtils.getGuild().channels.find(g => g.name.startsWith(mem.id) && g.type == 'text') as TextChannel;
