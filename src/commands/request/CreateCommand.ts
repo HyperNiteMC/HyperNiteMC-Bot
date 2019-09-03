@@ -7,7 +7,7 @@ import startTextureRequest, {requestMap as textureMap} from "./program/TextureRe
 export default class CreateCommand extends CommandNode {
 
     constructor(parent: CommandNode) {
-        super(parent, "create", BotUtils.findChannels(TextChannel, '586539557789368340', '586550731142725642'), BotUtils.getRoles(), "新增委託", ['<plugin | texture>'], "add", "new");
+        super(parent, "create", BotUtils.findChannels(TextChannel, '586539557789368340'), BotUtils.getRoles(), "新增委託", ['<plugin | texture>'], "add", "new");
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {

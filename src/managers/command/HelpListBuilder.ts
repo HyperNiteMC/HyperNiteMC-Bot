@@ -31,7 +31,7 @@ class HelpListBuilder {
             break;
         }
         if (node.placeholders.length > 0) {
-            cmd = cmd + " " + node.placeholders.toString();
+            cmd = cmd + " " + node.placeholders.join(' ');
         }
         cmd = cmd.concat(" - ").concat(node.description);
         this._helps.push(cmd);

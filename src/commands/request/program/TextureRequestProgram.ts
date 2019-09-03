@@ -12,6 +12,17 @@ export enum State {
 
 export const requestMap: Map<Snowflake, RequestedTexture> = new Map<Snowflake, RequestedTexture>();
 
+export const delRequest = async (id: Snowflake): Promise<boolean> => {
+    if (!requestMap.has(id)) return false;
+    const msg: Message | Message[] = requestMap.get(id).message;
+    if (msg instanceof Message) {
+        await msg.delete(0)
+    } else {
+        msg.forEach((async m => await m.delete()));
+    }
+    return requestMap.delete(id);
+};
+
 const startTextureRequest = (mem: GuildMember): void => {
     mem.send(new RichEmbed({
         fields: [
@@ -75,7 +86,13 @@ export class RequestedTexture implements Requested {
         this._state = value;
     }
 
-    public sendChannel(user: User) {
+    private _message: Message | Message[];
+
+    get message(): Message | Message[] {
+        return this._message;
+    }
+
+    public async sendChannel(user: User) {
         const embed: RichEmbed = new RichEmbed({
             title: `${user.tag} 的材質委託`,
             timestamp: new Date(),
@@ -113,7 +130,8 @@ export class RequestedTexture implements Requested {
                 text: `若材質設計師們有興趣，歡迎輸入 !request accept texture ${user.tag} 指令來接受委託`,
             },
         });
-        (BotUtils.getGuild().channels.get('586550731142725642') as TextChannel).send(embed).then(() => user.send(`你的訊息已成功發佈。`)).catch(r => console.error((r as Error).message));
+        this._message = await (BotUtils.getGuild().channels.get('618400708445732864') as TextChannel).send(embed);
+        return user.send(`你的訊息已成功發佈。`);
     }
 }
 

@@ -10,7 +10,7 @@ export default class RequestCommand extends DefaultCommand {
     sendUser = true;
 
     constructor() {
-        super(null, "request", BotUtils.findChannels(TextChannel, '586539557789368340', '586550731142725642'), BotUtils.getRoles(), "委託指令");
+        super(null, "request", BotUtils.findChannels(TextChannel, '586539557789368340'), BotUtils.getRoles(), "委託指令");
         this.addSub(new AcceptCommand(this));
         this.addSub(new CreateCommand(this));
         this.addSub(new DeleteCommand(this));

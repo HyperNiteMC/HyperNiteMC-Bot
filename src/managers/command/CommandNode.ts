@@ -59,7 +59,7 @@ abstract class CommandNode {
                     args.shift();
                     const placeholders: string[] = this._placeholders.filter(s => s.startsWith("<") && s.endsWith(">"));
                     if (args.length < placeholders.length) {
-                        channel.send("缺少參數: ".concat(placeholders.toString()));
+                        channel.send("缺少參數: ".concat(placeholders.join(' ')));
                         return;
                     }
                     node.invokeCommand(args, channel, guildMember);
@@ -77,7 +77,7 @@ abstract class CommandNode {
         }
         const placeholders: string[] = this._placeholders.filter(s => s.startsWith("<") && s.endsWith(">"));
         if (args.length < placeholders.length) {
-            channel.send("缺少參數: ".concat(placeholders.toString()));
+            channel.send("缺少參數: ".concat(placeholders.join(' ')));
             return;
         }
         this.execute(channel, guildMember, args.map(s => s

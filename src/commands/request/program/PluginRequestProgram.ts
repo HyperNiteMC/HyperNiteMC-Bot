@@ -14,6 +14,17 @@ export enum State {
 
 export const requestMap: Map<Snowflake, RequestedPlugin> = new Map<Snowflake, RequestedPlugin>();
 
+export const delRequest = async (id: Snowflake): Promise<boolean> => {
+    if (!requestMap.has(id)) return false;
+    const msg: Message | Message[] = requestMap.get(id).message;
+    if (msg instanceof Message) {
+        await msg.delete(0)
+    } else {
+        msg.forEach((async m => await m.delete()));
+    }
+    return requestMap.delete(id);
+};
+
 const startPluginRequest = (mem: GuildMember): void => {
     mem.send(new RichEmbed({
         fields: [
@@ -89,7 +100,13 @@ export class RequestedPlugin implements Requested {
         this._state = value;
     }
 
-    public sendChannel(user: User) {
+    private _message: Message | Message[];
+
+    get message(): Message | Message[] {
+        return this._message;
+    }
+
+    public async sendChannel(user: User) {
         const embed: RichEmbed = new RichEmbed({
             title: `${user.tag} 的插件委託`,
             timestamp: new Date(),
@@ -135,7 +152,8 @@ export class RequestedPlugin implements Requested {
                 text: `若插件師們有興趣，歡迎輸入 !request accept plugin ${user.tag} 指令來接受委託`,
             },
         });
-        (BotUtils.getGuild().channels.get('586539557789368340') as TextChannel).send(embed).then(() => user.send(`你的訊息已成功發佈。`)).catch(r => console.error((r as Error).message));
+        this._message = await (BotUtils.getGuild().channels.get('618400534377922570') as TextChannel).send(embed);
+        return user.send(`你的訊息已成功發佈。`);
     }
 }
 

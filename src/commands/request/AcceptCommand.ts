@@ -14,25 +14,12 @@ export default class AcceptCommand extends CommandNode {
 
 
     constructor(parent: CommandNode) {
-        super(parent, "accept", BotUtils.findChannels(TextChannel, '586539557789368340', '586550731142725642'), BotUtils.findRole('554215880616050691'), "接受委託", ['<plugin | texture>', `<委託者 tag>`]);
+        super(parent, "accept", BotUtils.findChannels(TextChannel, '586539557789368340'), BotUtils.findRole('554215880616050691'), "接受委託", [`<委託者 tag>`]);
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
-        let map: Map<Snowflake, RequestedPlugin | RequestedTexture>;
-
-        switch (args[0]) {
-            case 'plugin':
-                map = PluginRequest.requestMap;
-                break;
-            case 'texture':
-                map = TextureRequest.requestMap;
-                break;
-            default:
-                channel.send(`${guildMember.user.tag} 無效的委託類型!`);
-                return;
-        }
-
-        const mem: GuildMember = BotUtils.getGuild().members.get(args[1].startsWith('@') ? args[1].substr(1) : args[1]);
+        let map: Map<Snowflake, RequestedPlugin | RequestedTexture> = new Map<Snowflake, RequestedPlugin | RequestedTexture>([...PluginRequest.requestMap, ...TextureRequest.requestMap]);
+        const mem: GuildMember = BotUtils.getGuild().members.get(args[0].startsWith('@') ? args[0].substr(1) : args[0]);
         if (mem == undefined) {
             channel.send(`${guildMember.user.tag} 找不到對象。`);
             return;
@@ -42,7 +29,7 @@ export default class AcceptCommand extends CommandNode {
         }
 
         if (!map.has(mem.id)) {
-            channel.send(`${guildMember.user.tag} 該對象目前并沒有請求此類型的委託。`);
+            channel.send(`${guildMember.user.tag} 該對象目前并沒有請求任何委託。`);
             return;
         }
 
