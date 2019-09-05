@@ -1,8 +1,7 @@
 import CommandNode from "../../managers/command/CommandNode";
 import {GuildMember, TextChannel} from "discord.js";
 import BotUtils from "../../utils/BotUtils";
-import startPluginRequest, {requestMap as pluginMap} from "./program/PluginRequestProgram";
-import startTextureRequest, {requestMap as textureMap} from "./program/TextureRequestProgram";
+import {isRequesting, startRequest} from "../../managers/request/RequestedManager";
 
 export default class CreateCommand extends CommandNode {
 
@@ -10,22 +9,26 @@ export default class CreateCommand extends CommandNode {
         super(parent, "create", BotUtils.findChannels(TextChannel, '586539557789368340'), BotUtils.getRoles(), "新增委託", ['<plugin | texture>'], "add", "new");
     }
 
-    execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
-        if (pluginMap.has(guildMember.id) || textureMap.has(guildMember.id)) {
+    async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
+        if (await isRequesting(guildMember)) {
             channel.send(`${guildMember.user.tag} 你目前已有一個進行中的委託，請先 透過 !request delete 刪除上一個委託再嘗試!`);
             return;
         }
+
+        let promise: Promise<void>;
         switch (args[0]) {
             case "plugin":
-                startPluginRequest(guildMember);
+                promise = startRequest(guildMember, 'plugin');
                 break;
             case "texture":
-                startTextureRequest(guildMember);
+                promise = startRequest(guildMember, 'texture');
                 break;
             default:
                 channel.send(`${guildMember.user.tag} 無效的委託類型!`);
                 break;
         }
+
+        promise.catch(r => console.error((r as Error).message));
     }
 
 }

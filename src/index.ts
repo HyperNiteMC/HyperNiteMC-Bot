@@ -3,8 +3,8 @@ import {Guild} from 'discord.js';
 import BotUtils from "./utils/BotUtils";
 import Manager from "./managers/command/CommandManager";
 import auth from './secret/auth.json'
-import {msgListener} from "./commands/request/program/PluginRequestProgram";
-import {msgListener as TmsgListener} from './commands/request/program/TextureRequestProgram'
+import {handleMessage} from "./managers/request/RequestedManager";
+import './managers/MySQLManager'
 
 const client = new Discord.Client();
 
@@ -30,8 +30,7 @@ client.on('ready', () => {
 
 client.on('message', m => {
     if (Manager.invoke(m)) return;
-    msgListener(m);
-    TmsgListener(m);
+    handleMessage(m).catch(console.error);
 });
 
 client.on('messageReactionAdd', (rea, user) => {

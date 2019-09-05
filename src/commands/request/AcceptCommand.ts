@@ -1,14 +1,8 @@
 import CommandNode from "../../managers/command/CommandNode";
-import {GuildMember, Snowflake, TextChannel} from "discord.js";
+import {GuildMember, TextChannel} from "discord.js";
 import BotUtils from "../../utils/BotUtils";
-import * as PluginRequest from './program/PluginRequestProgram';
-import {RequestedPlugin} from './program/PluginRequestProgram';
-import * as TextureRequest from './program/TextureRequestProgram';
-import {RequestedTexture} from './program/TextureRequestProgram';
 import ChannelManager from "../../managers/ChannelManager";
-import * as Req from './request'
-import Requested = Req.Requested;
-import RequestState = Req.RequestState;
+import {isFinish, isRequesting} from "../../managers/request/RequestedManager";
 
 export default class AcceptCommand extends CommandNode {
 
@@ -18,7 +12,6 @@ export default class AcceptCommand extends CommandNode {
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
-        let map: Map<Snowflake, RequestedPlugin | RequestedTexture> = new Map<Snowflake, RequestedPlugin | RequestedTexture>([...PluginRequest.requestMap, ...TextureRequest.requestMap]);
         const mem: GuildMember = BotUtils.getGuild().members.get(args[0].startsWith('@') ? args[0].substr(1) : args[0]);
         if (mem == undefined) {
             channel.send(`${guildMember.user.tag} 找不到對象。`);
@@ -28,14 +21,12 @@ export default class AcceptCommand extends CommandNode {
             return;
         }
 
-        if (!map.has(mem.id)) {
+        if (!isRequesting(mem)) {
             channel.send(`${guildMember.user.tag} 該對象目前并沒有請求任何委託。`);
             return;
         }
 
-        const req: Requested = map.get(mem.id);
-
-        if (req.state != RequestState.FINISH) {
+        if (!isFinish(mem)) {
             channel.send(`${guildMember.user.tag} 該對象的委託內容尚未完善。`);
             return;
         }
