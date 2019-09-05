@@ -8,6 +8,7 @@ import UpTimeCommand from "../commands/UpTimeCommand";
 import moment from "moment";
 import 'moment-timezone';
 import RequestCommand from "../commands/request/RequestCommand";
+import BetaCommand from "../commands/BetaCommand";
 
 moment.locale('zh-TW');
 moment.tz.setDefault('Asia/Hong_Kong');
@@ -44,6 +45,7 @@ class Bot {
         Manager.register(new IPCommand());
         Manager.register(new UpTimeCommand());
         Manager.register(new RequestCommand());
+        Manager.register(new BetaCommand());
         ChannelManager.launchIdleChecker();
         console.log("Command registered");
     }
