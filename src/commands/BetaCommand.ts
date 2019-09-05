@@ -75,7 +75,9 @@ const verify = async (mem: GuildMember) => {
     });
     if (col.size) {
         await mem.addRole('618853616089825281', '成功申請成為封測玩家');
-        await (BotUtils.getGuild().channels.get('619120537406537738') as TextChannel).send(`${mem.user.tag} 在 ${new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Hong_Kong'})} 成為了封測玩家。`);
+        const date: Date = new Date();
+        const localString: string = date.toLocaleString('zh-TW', {timeZone: 'Asia/Hong_Kong'});
+        await (BotUtils.getGuild().channels.get('619120537406537738') as TextChannel).send(`${mem.user.tag} 在 ${localString} 成為了封測玩家。`);
         mem.send(`你已成功申請成為封測玩家!`);
     } else {
         mem.send(`已逾時，請重新申請。`);
