@@ -145,7 +145,8 @@ const checkIdle = async (mem: GuildMember) => {
     console.log("Successfully deleted.");
     let m = await mem.send(`你的頻道因為閒置超過十五分鐘已被刪除。若果想恢復頻道，請在三分鐘內添加 :x: 的表情到此訊息上。`);
     const msg: Message = m instanceof Message ? m : m[0];
-    const col = await msg.awaitReactions((r) => r.emoji.name === '❌', {
+    await msg.react('❌');
+    const col = await msg.awaitReactions((r, user) => user.id === mem.id && r.emoji.name === '❌', {
         time: 180 * 1000,
         maxEmojis: 1
     });

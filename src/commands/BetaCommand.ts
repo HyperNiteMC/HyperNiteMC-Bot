@@ -48,6 +48,10 @@ const verify = async (mem: GuildMember) => {
                 value: '我們目前是裝了新的反作弊插件，但由於時間及沒有可靠的數據，此插件可能會出現誤判的現象。但我們已把反作弊插件調到不會進行踢出及封禁等動作。若有發現誤判，請及時到 #漏洞或問題回報 進行回報。',
             },
             {
+                name: '有關本伺服器',
+                value: '在封測階段期間，本服可能會出現經常重啟，甚至關閉一會兒的狀況，這是由於本服目前尚未完善的原因，因此純屬正常。若有不便，敬請原諒。'
+            },
+            {
                 name: '有關問題回報',
                 value: '若有任何疑問，歡迎你到 #漏洞或問題回報 詢問，讓本服工作人員或其他封測玩家都可以解答你的問題。\n\n\n>>>',
             },
@@ -64,13 +68,14 @@ const verify = async (mem: GuildMember) => {
     });
 
     const msg: Message = await mem.send(embed) as Message;
-    const col = await msg.awaitReactions((r) => r.emoji.name === '✅', {
+    await msg.react('✅');
+    const col = await msg.awaitReactions((r, user) => user.id === mem.id && r.emoji.name === '✅', {
         time: 600 * 1000,
-        maxEmojis: 1
+        maxEmojis: 1,
     });
     if (col.size) {
         await mem.addRole('618853616089825281', '成功申請成為封測玩家');
-        await (BotUtils.getGuild().channels.get('619120537406537738') as TextChannel).send(`${mem.user.tag} 在 ${new Date().toLocaleString()} 成為了封測玩家。`);
+        await (BotUtils.getGuild().channels.get('619120537406537738') as TextChannel).send(`${mem.user.tag} 在 ${new Date().toLocaleString('zh-TW', {timeZone: 'Asia/Hong_Kong'})} 成為了封測玩家。`);
         mem.send(`你已成功申請成為封測玩家!`);
     } else {
         mem.send(`已逾時，請重新申請。`);
