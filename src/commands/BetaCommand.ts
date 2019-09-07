@@ -1,7 +1,6 @@
 import CommandNode from "../managers/command/CommandNode";
 import {GuildMember, Message, RichEmbed, TextChannel} from "discord.js";
 import BotUtils from "../utils/BotUtils";
-import moment = require("moment");
 
 export default class BetaCommand extends CommandNode {
 
@@ -10,10 +9,7 @@ export default class BetaCommand extends CommandNode {
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
-        const date: Date = new Date(2019, 9, 7);
-        if (moment(new Date()).isBefore(date) && !guildMember.roles.has('313609709636812810')) {
-            channel.send(`封測尚未啟動!`);
-        } else if (guildMember.roles.has('618853616089825281')) {
+        if (guildMember.roles.has('618853616089825281')) {
             channel.send(`你已經是封測玩家了。`)
         } else {
             verify(guildMember).catch(console.error);

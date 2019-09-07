@@ -42,7 +42,7 @@ const invoke = (msg: Message): boolean => {
     const [label, ...args] = msg.content.split(" ");
     const command: string = label.substr(1);
     for (let node of registerNodes.values()) {
-        if (node.command.match(command)) {
+        if (node.match(command)) {
             if (!(msg.channel instanceof TextChannel)) return false;
             node.invokeCommand(args, msg.channel, msg.member);
             return true;

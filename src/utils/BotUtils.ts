@@ -5,8 +5,7 @@ import ChannelManager from "../managers/ChannelManager";
 import TrainerCommand from "../commands/trainer/TrainerCommand";
 import IPCommand from "../commands/IPCommand";
 import UpTimeCommand from "../commands/UpTimeCommand";
-import moment from "moment";
-import 'moment-timezone';
+import moment from 'moment-timezone';
 import RequestCommand from "../commands/request/RequestCommand";
 import BetaCommand from "../commands/BetaCommand";
 
