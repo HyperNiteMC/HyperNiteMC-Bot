@@ -1,5 +1,6 @@
 import CommandNode from "./CommandNode";
 import {Message, RichEmbed, TextChannel, User} from "discord.js";
+import BotUtils from "../../utils/BotUtils";
 
 const registerNodes: Set<CommandNode> = new Set<CommandNode>();
 
@@ -44,7 +45,10 @@ const invoke = (msg: Message): boolean => {
     for (let node of registerNodes.values()) {
         if (node.match(command)) {
             if (!(msg.channel instanceof TextChannel)) return false;
-            node.invokeCommand(args, msg.channel, msg.member);
+            const channel: TextChannel = msg.channel as TextChannel;
+            BotUtils.getGuild().fetchMember(msg.member).then(mem => {
+                node.invokeCommand(args, channel, mem);
+            }).catch(r => console.warn((r as Error).message));
             return true;
         }
     }

@@ -1,5 +1,5 @@
 import * as Discord from 'discord.js';
-import {Guild} from 'discord.js';
+import {Guild, Message} from 'discord.js';
 import BotUtils from "./utils/BotUtils";
 import Manager from "./managers/command/CommandManager";
 import auth from './secret/auth.json'
@@ -34,6 +34,13 @@ client.on('message', m => {
 });
 
 client.on('messageReactionAdd', (rea, user) => {
+    if (rea.message.channel.id == '617330086789775400') {
+        const name: string = rea.emoji.name;
+        const msg: Message = rea.message;
+        if (msg.author !== user) {
+            msg.reactions.filter(rea => rea.emoji.name !== name).forEach((async (rea) => await rea.remove(user)));
+        }
+    }
 });
 
 
