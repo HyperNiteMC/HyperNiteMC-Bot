@@ -20,22 +20,27 @@ export default class AcceptCommand extends CommandNode {
             channel.send(`${guildMember.user.tag} 對象無法為自己!`);
             return;
         }
-
-        if (!isRequesting(mem)) {
-            channel.send(`${guildMember.user.tag} 該對象目前并沒有請求任何委託。`);
-            return;
-        }
-
-        if (!isFinish(mem)) {
-            channel.send(`${guildMember.user.tag} 該對象的委託內容尚未完善。`);
-            return;
-        }
-
         handleAccept(mem, guildMember, channel).catch(r => console.error((r as Error).message));
     }
 }
 
+
 const handleAccept = async (requester: GuildMember, dev: GuildMember, channel: TextChannel) => {
+    if (!await isRequesting(requester)) {
+        channel.send(`${requester.user.tag} 該對象目前并沒有請求任何委託。`);
+        return;
+    }
+
+    if (!await isFinish(requester)) {
+        channel.send(`${requester.user.tag} 該對象的委託內容尚未完善。`);
+        return;
+    }
+
+    if (ChannelManager.contain(requester.user, dev)) {
+        channel.send(`${dev.user.tag} 你已經進入了他的房間了。`);
+        return;
+    }
+
     if (!ChannelManager.isUsing(requester.user)) await ChannelManager.addChannel(requester);
     ChannelManager.addPlayer(requester.user, dev.user);
     channel.send(`${dev.user.tag} 成功接受 ${requester.user.tag} 的委託。`);
