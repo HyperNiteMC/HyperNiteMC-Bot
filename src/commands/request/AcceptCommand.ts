@@ -12,7 +12,7 @@ export default class AcceptCommand extends CommandNode {
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
-        const mem: GuildMember = BotUtils.getGuild().members.get(args[0].startsWith('@') ? args[0].substr(1) : args[0]);
+        const mem: GuildMember = channel.guild.members.get(args[0].startsWith('@') ? args[0].substr(1) : args[0]);
         if (mem === undefined) {
             channel.send(`${guildMember.user.tag} 找不到對象。`);
             return;
