@@ -181,7 +181,9 @@ const containPlayer = (joiner: GuildMember): boolean => {
 };
 
 const contain = (user: User, joiner: GuildMember): boolean => {
-    return BotUtils.getGuild().channels.filter(g => g.name.startsWith(user.id)).every(g => g.permissionOverwrites.some(s => s.id === joiner.id));
+    const guildChannels = BotUtils.getGuild().channels.filter(g => g.name === user.id);
+    if (guildChannels.size == 0) return false;
+    return guildChannels.every(g => g.permissionOverwrites.some(s => s.id === joiner.id));
 };
 
 const deleteAll = () => {
