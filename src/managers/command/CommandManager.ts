@@ -48,7 +48,11 @@ const invoke = (msg: Message): boolean => {
             const channel: TextChannel = msg.channel as TextChannel;
             BotUtils.getGuild().fetchMember(msg.member).then(mem => {
                 node.invokeCommand(args, channel, mem);
-            }).catch(r => console.warn((r as Error).message));
+            }).catch(r => {
+                const err: Error = r as Error;
+                console.error(err.message);
+                channel.send(`出現錯誤: ${err.message}, 請確保你的賬戶狀態為線上。`)
+            });
             return true;
         }
     }
