@@ -12,7 +12,10 @@ export default class BetaCommand extends CommandNode {
         if (guildMember.roles.has('618853616089825281')) {
             channel.send(`你已經是封測玩家了。`)
         } else {
-            verify(guildMember).catch(console.error);
+            verify(guildMember).catch((err: Error) => {
+                console.error(err);
+                channel.send(`Error -> ${err.name}: ${err.message}`)
+            });
         }
     }
 

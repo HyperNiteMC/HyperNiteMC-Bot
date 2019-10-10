@@ -30,7 +30,10 @@ client.on('ready', () => {
 
 client.on('message', m => {
     if (Manager.invoke(m)) return;
-    handleMessage(m).catch(console.error);
+    handleMessage(m).catch((err: Error) => {
+        console.error(err);
+        m.channel.send(`Error -> ${err.name}: ${err.message}`)
+    });
 });
 
 client.on('messageReactionAdd', (rea, user) => {
