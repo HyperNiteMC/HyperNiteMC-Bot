@@ -5,27 +5,31 @@ import Manager from "./managers/command/CommandManager";
 import auth from './secret/auth.json'
 import {handleMessage} from "./managers/request/RequestedManager";
 import './managers/MySQLManager'
+import connection from "./managers/MySQLManager";
 
 const client = new Discord.Client();
 
-
-client.login(auth.token).then(r => {
+const activate = () => {
     const guild: Guild = client.guilds.get('313607220140965888');
-
     if (guild == undefined) {
         console.warn("The bot has not joined the HNMC Discord Guild! This bot will not activate.");
     } else {
         BotUtils.activate(client, guild);
         console.log("The bot has been activated.")
     }
-}).catch(r => {
+};
+
+client.login(auth.token).catch(r => {
     if (r instanceof Error) {
         console.warn(r.message);
     }
 });
 
+
 client.on('ready', () => {
     console.log("This bot is ready to be activated");
+    activate();
+    connection().catch(console.error);
 });
 
 client.on('message', m => {

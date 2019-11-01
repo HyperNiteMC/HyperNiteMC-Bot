@@ -10,6 +10,9 @@ const options: ConnectionOptions = {
     ]
 };
 
-createConnection(options).then(con => con.synchronize()).catch(r => console.error(r));
+const connection = async () => {
+    const con = await createConnection(options);
+    return await con.synchronize();
+};
 
-
+export default connection;
