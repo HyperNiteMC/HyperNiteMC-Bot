@@ -6,6 +6,7 @@ import auth from './secret/auth.json'
 import {handleMessage} from "./managers/request/RequestedManager";
 import './managers/MySQLManager'
 import connection from "./managers/MySQLManager";
+import isIllegal from "./managers/IllegalChatManager";
 
 const client = new Discord.Client();
 
@@ -23,18 +24,24 @@ client.login(auth.token).catch(r => {
     if (r instanceof Error) {
         console.warn(r.message);
     }
+    connection().catch(console.error);
 });
 
 
 client.on('ready', () => {
     console.log("This bot is ready to be activated");
     activate();
-    connection().catch(console.error);
+
 });
 
 client.on('message', m => {
     if (Manager.invoke(m)) return;
-    handleMessage(m).catch((err: Error) => {
+    Promise.all([handleMessage(m), isIllegal(m)]).then(([, illegal]) => {
+        if (illegal) {
+            Promise.all([m.delete(0), m.reply(`請勿發送違規訊息。`)]).catch(console.error);
+            console.warn(`${m.author.tag} saying illegal chat: ${m.content}`)
+        }
+    }).catch((err: Error) => {
         console.error(err);
         m.channel.send(`Error -> ${err.name}: ${err.message}`)
     });
