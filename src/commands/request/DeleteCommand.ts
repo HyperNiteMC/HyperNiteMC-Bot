@@ -2,12 +2,13 @@ import CommandNode from "../../managers/command/CommandNode";
 import {GuildMember, TextChannel} from "discord.js";
 import BotUtils from "../../utils/BotUtils";
 import {delRequest} from "../../managers/request/RequestedManager";
+import RequestCommand from "./RequestCommand";
 
 export default class DeleteCommand extends CommandNode {
 
 
     constructor(parent: CommandNode) {
-        super(parent, "delete", BotUtils.findChannels(TextChannel, '586539557789368340'), BotUtils.getRoles(), `刪除目前委託`, [], "resolve");
+        super(parent, "delete", BotUtils.findChannels(TextChannel, RequestCommand.channelId), BotUtils.getRoles(), `刪除目前委託`, [], "resolve");
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {

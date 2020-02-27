@@ -2,11 +2,12 @@ import CommandNode from "../../managers/command/CommandNode";
 import {GuildMember, TextChannel} from "discord.js";
 import BotUtils from "../../utils/BotUtils";
 import {isRequesting, startRequest} from "../../managers/request/RequestedManager";
+import RequestCommand from "./RequestCommand";
 
 export default class CreateCommand extends CommandNode {
 
     constructor(parent: CommandNode) {
-        super(parent, "create", BotUtils.findChannels(TextChannel, '586539557789368340'), BotUtils.getRoles(), "新增委託", ['<plugin | texture>'], "add", "new");
+        super(parent, "create", BotUtils.findChannels(TextChannel, RequestCommand.channelId), BotUtils.getRoles(), "新增委託", ['<plugin | texture>'], "add", "new");
     }
 
     async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {

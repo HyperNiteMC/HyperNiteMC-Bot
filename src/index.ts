@@ -3,6 +3,7 @@ import {Guild, Message} from 'discord.js';
 import BotUtils from "./utils/BotUtils";
 import Manager from "./managers/command/CommandManager";
 import auth from './secret/auth.json'
+import room from './secret/id.json'
 import {handleMessage} from "./managers/request/RequestedManager";
 import './managers/MySQLManager'
 import connection from "./managers/MySQLManager";
@@ -11,7 +12,7 @@ import isIllegal from "./managers/IllegalChatManager";
 const client = new Discord.Client();
 
 const activate = () => {
-    const guild: Guild = client.guilds.get('313607220140965888');
+    const guild: Guild = client.guilds.get(room.guild);
     if (guild == undefined) {
         console.warn("The bot has not joined the HNMC Discord Guild! This bot will not activate.");
     } else {

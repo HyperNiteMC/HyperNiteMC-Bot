@@ -2,12 +2,13 @@ import CommandNode from "../../../managers/command/CommandNode";
 import {GuildMember, TextChannel, VoiceChannel} from "discord.js";
 import BotUtils from "../../../utils/BotUtils";
 import ChannelManager from "../../../managers/ChannelManager";
+import id from "../../../secret/id.json"
 
 export default class UserLimitCommand extends CommandNode {
 
 
     constructor(parent: CommandNode) {
-        super(parent, "limit", BotUtils.getCommandChannels(), BotUtils.findRole('554215880616050691'), "設置人數限制", ["<value>"], "userlimit");
+        super(parent, "limit", BotUtils.getCommandChannels(), BotUtils.findRole(id.roomManageRole), "設置人數限制", ["<value>"], "userlimit");
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {

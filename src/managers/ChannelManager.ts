@@ -1,3 +1,4 @@
+import room from "../secret/id.json"
 import {
     CategoryChannel,
     Collection,
@@ -34,7 +35,7 @@ const idleChannel = async (user: GuildMember): Promise<Boolean> => {
 
 const addChannel = async (guildMember: GuildMember): Promise<any> => {
     const guild: Guild = BotUtils.getGuild();
-    const cate: CategoryChannel = guild.channels.find(g => g.id === '431085025803632640') as CategoryChannel;
+    const cate: CategoryChannel = guild.channels.find(g => g.id === room.chatRoomCategory) as CategoryChannel;
     const promises: Promise<CategoryChannel | TextChannel | VoiceChannel>[] = [
         guild.createChannel(guildMember.id, {
             type: 'voice',
@@ -71,7 +72,7 @@ const addChannel = async (guildMember: GuildMember): Promise<any> => {
     const r = await ch[0].setParent(cate);
     const r2 = await ch[1].setParent(cate);
     console.log("成功創建 " + guildMember.user.tag + " 頻道 ".concat(r.name));
-    console.log("成功創建 " + guildMember.user.tag + " 頻道 ".concat(r2.name))
+    console.log("成功創建 " + guildMember.user.tag + " 頻道 ".concat(r2.name));
     return await guildMember.setVoiceChannel(r).catch(r => console.log((r as Error).message));
 };
 
@@ -157,7 +158,7 @@ const checkIdle = async (mem: GuildMember) => {
         const tc: TextChannel = BotUtils.getGuild().channels.find(g => g.name.startsWith(mem.id) && g.type == 'text') as TextChannel;
         tc.send(`此頻道已被恢復。`);
     } else {
-        await mem.send(`已逾時，請自行到 ${BotUtils.getGuild().channels.get('431462531803119618').name} 重新輸入指令。`);
+        await mem.send(`已逾時，請自行到 ${BotUtils.getGuild().channels.get(room.commandRoom).name} 重新輸入指令。`);
         await Promise.all(delChannel(mem.user));
         mem.send(`你的頻道已被刪除。`);
     }

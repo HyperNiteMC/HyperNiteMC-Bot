@@ -3,12 +3,13 @@ import {GuildMember, TextChannel} from "discord.js";
 import BotUtils from "../../utils/BotUtils";
 import ChannelManager from "../../managers/ChannelManager";
 import {isFinish, isRequesting} from "../../managers/request/RequestedManager";
+import RequestCommand from "./RequestCommand";
 
 export default class AcceptCommand extends CommandNode {
 
 
     constructor(parent: CommandNode) {
-        super(parent, "accept", BotUtils.findChannels(TextChannel, '586539557789368340'), BotUtils.findRole('554215880616050691'), "接受委託", [`<委託者 tag>`]);
+        super(parent, "accept", BotUtils.findChannels(TextChannel, RequestCommand.channelId), BotUtils.findRole('554215880616050691'), "接受委託", [`<委託者 tag>`]);
     }
 
     execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
