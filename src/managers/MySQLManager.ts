@@ -11,8 +11,10 @@ const options: ConnectionOptions = {
 };
 
 const connection = async () => {
+    console.log('connecting to mysql...')
     const con = await createConnection(options);
-    return await con.synchronize();
+    await con.synchronize();
+    console.log('mysql connected.')
 };
 
 export default connection;

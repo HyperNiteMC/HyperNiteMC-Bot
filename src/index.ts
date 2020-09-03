@@ -6,8 +6,8 @@ import auth from './secret/auth.json'
 import room from './secret/id.json'
 import {handleMessage} from "./managers/request/RequestedManager";
 import './managers/MySQLManager'
-import connection from "./managers/MySQLManager";
 import isIllegal from "./managers/IllegalChatManager";
+import connection from "./managers/MySQLManager";
 
 const client = new Discord.Client();
 
@@ -21,18 +21,18 @@ const activate = () => {
     }
 };
 
-client.login(auth.token).catch(r => {
-    if (r instanceof Error) {
-        console.warn(r.message);
-    }
-    connection().catch(console.error);
-});
+client.login(auth.token)
+    .then(() => connection().catch(console.error))
+    .catch(r => {
+        if (r instanceof Error) {
+            console.warn(r.message);
+        }
+    });
 
 
 client.on('ready', () => {
     console.log("This bot is ready to be activated");
     activate();
-
 });
 
 client.on('message', m => {
@@ -63,9 +63,3 @@ client.on('error', error => {
     console.warn("Got an error when running discord bot");
     console.warn(error.message);
 });
-
-
-
-
-
-

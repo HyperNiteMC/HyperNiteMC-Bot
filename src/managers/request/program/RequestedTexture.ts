@@ -2,6 +2,7 @@ import {Requested, RequestState} from "../RequestTypes";
 import {Message, RichEmbed, TextChannel, User} from "discord.js";
 import * as id from "../../../secret/id.json"
 import BotUtils from "../../../utils/BotUtils";
+import {Requester} from "../../../entity/Entites";
 
 enum State {
     TEXTURE_NAME,
@@ -102,6 +103,10 @@ export default class RequestedTexture implements Requested {
             },
         });
         this._message = await (BotUtils.getGuild().channels.get(id.textureRequestBroadcast) as TextChannel).send(embed) as Message;
+        const requester = new Requester()
+        requester.userId = user.id
+        requester.msgId = this._message.id
+        await requester.save()
         return user.send(`你的訊息已成功發佈。`);
     }
 
