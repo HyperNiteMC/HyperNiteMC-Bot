@@ -9,16 +9,16 @@ export default class AcceptCommand extends CommandNode {
 
 
     constructor(parent: CommandNode) {
-        super(parent, "accept", BotUtils.findChannels(TextChannel, RequestCommand.channelId), BotUtils.findRole('554215880616050691'), "接受委託", [`<委託者 tag>`]);
+        super(parent, "accept", BotUtils.findChannels(TextChannel, RequestCommand.channelId), BotUtils.findRole('313611459957358592'), "接受委託", [`<委託者 tag>`]);
     }
 
-    execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
+    async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
         const mem: GuildMember = channel.guild.members.get(args[0].startsWith('@') ? args[0].substr(1) : args[0]);
         if (mem === undefined) {
-            channel.send(`${guildMember.user.tag} 找不到對象。`);
+            await channel.send(`${guildMember.user.tag} 找不到對象。`);
             return;
         } else if (mem.id === guildMember.id) {
-            channel.send(`${guildMember.user.tag} 對象無法為自己!`);
+            await channel.send(`${guildMember.user.tag} 對象無法為自己!`);
             return;
         }
         handleAccept(mem, guildMember, channel).catch(r => console.error((r as Error).message));
@@ -28,23 +28,23 @@ export default class AcceptCommand extends CommandNode {
 
 const handleAccept = async (requester: GuildMember, dev: GuildMember, channel: TextChannel) => {
     if (!await isRequesting(requester)) {
-        channel.send(`${requester.user.tag} 該對象目前并沒有請求任何委託。`);
+        await channel.send(`${requester.user.tag} 該對象目前并沒有請求任何委託。`);
         return;
     }
 
     if (!await isFinish(requester)) {
-        channel.send(`${requester.user.tag} 該對象的委託內容尚未完善。`);
+        await channel.send(`${requester.user.tag} 該對象的委託內容尚未完善。`);
         return;
     }
 
     if (ChannelManager.contain(requester.user, dev)) {
-        channel.send(`${dev.user.tag} 你已經進入了他的房間了。`);
+        await channel.send(`${dev.user.tag} 你已經進入了他的房間了。`);
         return;
     }
 
     if (!ChannelManager.isUsing(requester.user)) await ChannelManager.addChannel(requester);
     ChannelManager.addPlayer(requester.user, dev.user);
-    channel.send(`${dev.user.tag} 成功接受 ${requester.user.tag} 的委託。`);
+    await channel.send(`${dev.user.tag} 成功接受 ${requester.user.tag} 的委託。`);
     const chan: TextChannel = ChannelManager.getChannel<TextChannel>(requester.user, 'text');
-    chan.send(`${dev.user.tag} 接受了你的委託并進入了你的房間。`);
+    await chan.send(`${dev.user.tag} 接受了你的委託并進入了你的房間。`);
 };

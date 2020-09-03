@@ -11,19 +11,18 @@ export default class UserLimitCommand extends CommandNode {
         super(parent, "limit", BotUtils.getCommandChannels(), BotUtils.findRole(id.roomManageRole), "設置人數限制", ["<value>"], "userlimit");
     }
 
-    execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
+    async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
         const value: number = parseInt(args[0]);
         if (isNaN(value)) {
-            channel.send(guildMember.user.tag.concat(" 無效的數值!"));
+            await channel.send(guildMember.user.tag.concat(" 無效的數值!"));
             return;
         }
         if (!ChannelManager.isUsing(guildMember.user)) {
-            channel.send(`${guildMember.user.tag}  你沒有創建過房間。`);
+            await channel.send(`${guildMember.user.tag}  你沒有創建過房間。`);
             return;
         }
-        ChannelManager.getChannel<VoiceChannel>(guildMember.user, 'voice').setUserLimit(value).then(() => {
-            channel.send("成功設置 ".concat(guildMember.user.tag).concat(" 的語音頻道人數為 " + value))
-        });
+        await ChannelManager.getChannel<VoiceChannel>(guildMember.user, 'voice').setUserLimit(value)
+        await channel.send("成功設置 ".concat(guildMember.user.tag).concat(" 的語音頻道人數為 " + value))
     }
 
 }

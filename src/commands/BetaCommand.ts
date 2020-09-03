@@ -8,14 +8,11 @@ export default class BetaCommand extends CommandNode {
         super(null, "beta", BotUtils.getCommandChannels(), BotUtils.getRoles(), "封測申請指令", []);
     }
 
-    execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
+    async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
         if (guildMember.roles.has('618853616089825281')) {
-            channel.send(`你已經是封測玩家了。`)
+            await channel.send(`你已經是封測玩家了。`)
         } else {
-            verify(guildMember).catch((err: Error) => {
-                console.error(err);
-                channel.send(`Error -> ${err.name}: ${err.message}`)
-            });
+            await verify(guildMember)
         }
     }
 

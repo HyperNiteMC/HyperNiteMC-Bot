@@ -17,7 +17,7 @@ const activate = () => {
         console.warn("The bot has not joined the HNMC Discord Guild! This bot will not activate.");
     } else {
         BotUtils.activate(client, guild);
-        console.log("The bot has been activated.")
+        console.log(`HyperNiteMC Discord Bot ${room.botVersion} has been activated.`)
     }
 };
 
@@ -44,7 +44,7 @@ client.on('message', m => {
         }
     }).catch((err: Error) => {
         console.error(err);
-        m.channel.send(`Error -> ${err.name}: ${err.message}`)
+        m.channel.send(`Error -> ${err.name}: ${err.message}`).then()
     });
 });
 

@@ -12,7 +12,7 @@ export default class CreateCommand extends CommandNode {
 
     async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
         if (await isRequesting(guildMember)) {
-            channel.send(`${guildMember.user.tag} 你目前已有一個進行中的委託，請先 透過 !request delete 刪除上一個委託再嘗試!`);
+            await channel.send(`${guildMember.user.tag} 你目前已有一個進行中的委託，請先 透過 !request delete 刪除上一個委託再嘗試!`);
             return;
         }
 
@@ -25,7 +25,7 @@ export default class CreateCommand extends CommandNode {
                 promise = startRequest(guildMember, 'texture');
                 break;
             default:
-                channel.send(`${guildMember.user.tag} 無效的委託類型!`);
+                await channel.send(`${guildMember.user.tag} 無效的委託類型!`);
                 break;
         }
 

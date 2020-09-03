@@ -1,5 +1,6 @@
 import {Requested, RequestState} from "../RequestTypes";
 import {Message, RichEmbed, TextChannel, User} from "discord.js";
+import * as id from "../../../secret/id.json"
 import BotUtils from "../../../utils/BotUtils";
 
 enum State {
@@ -100,7 +101,7 @@ export default class RequestedTexture implements Requested {
                 text: `若材質設計師們有興趣，歡迎輸入 !request accept texture ${user.tag} 指令來接受委託`,
             },
         });
-        this._message = await (BotUtils.getGuild().channels.get('618400708445732864') as TextChannel).send(embed) as Message;
+        this._message = await (BotUtils.getGuild().channels.get(id.textureRequestBroadcast) as TextChannel).send(embed) as Message;
         return user.send(`你的訊息已成功發佈。`);
     }
 

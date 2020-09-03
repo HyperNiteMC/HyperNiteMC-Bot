@@ -1,6 +1,7 @@
 import {Requested, RequestState} from "../RequestTypes";
 import {Message, RichEmbed, TextChannel, User} from "discord.js";
 import BotUtils from "../../../utils/BotUtils";
+import * as id from "../../../secret/id.json";
 import {Requester} from "../../../entity/Entites";
 
 enum State {
@@ -122,7 +123,7 @@ export default class RequestedPlugin implements Requested {
                 text: `若插件師們有興趣，歡迎輸入 !request accept plugin ${user.tag} 指令來接受委託`,
             },
         });
-        this._message = await (BotUtils.getGuild().channels.get('618400534377922570') as TextChannel).send(embed) as Message;
+        this._message = await (BotUtils.getGuild().channels.get(id.pluginRequestBroadcast) as TextChannel).send(embed) as Message;
         let requester = new Requester();
         requester.userId = user.id;
         requester.msgId = this._message.id;

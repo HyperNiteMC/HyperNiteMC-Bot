@@ -12,10 +12,10 @@ abstract class DefaultCommand extends CommandNode {
         super(parent, command, allowChannels, allowRoles, description, [], ...alias);
     }
 
-    execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
+    async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
         const builder: HelpListBuilder = new HelpListBuilder(this);
         if (this.subCommands.size == 0) {
-            channel.send("你無可用指令。");
+            await channel.send("你無可用指令。");
             return;
         }
         for (let subCommand of this.subCommands) {

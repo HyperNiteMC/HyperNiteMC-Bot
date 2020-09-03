@@ -9,7 +9,7 @@ export default class UpTimeCommand extends CommandNode {
         super(null, "uptime", BotUtils.getChannels(), BotUtils.getRoles(), "查看 Bot 上次啟動時間", [], "lastlaunch");
     }
 
-    execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void {
+    async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
         const launch: Date = BotUtils.getActivateTime();
         const launchMoment: Moment = moment(launch);
         const rich: RichEmbed = new RichEmbed({
@@ -24,7 +24,7 @@ export default class UpTimeCommand extends CommandNode {
                 }
             ],
         });
-        channel.send(rich).catch(r => console.error((r as Error).message));
+        await channel.send(rich)
     }
 }
 

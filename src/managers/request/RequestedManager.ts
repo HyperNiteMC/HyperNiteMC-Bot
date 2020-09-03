@@ -1,6 +1,7 @@
 import {DMChannel, GuildMember, Message, RichEmbed, Snowflake, TextChannel} from "discord.js";
 import {Requester} from "../../entity/Entites";
 import BotUtils from "../../utils/BotUtils";
+import * as id from "../../secret/id.json"
 import RequestedPlugin from "./program/RequestedPlugin";
 import {Requested, RequestState} from "./RequestTypes";
 import RequestedTexture from "./program/RequestedTexture";
@@ -55,7 +56,7 @@ export const startRequest = async (mem: GuildMember, type: 'texture' | 'plugin')
 
 const delRequestMessage = (msgId: Snowflake) => {
     const promises = [];
-    [...BotUtils.findChannels<TextChannel>(TextChannel, '618400534377922570', '618400708445732864')].map(channel => channel.messages).forEach(m => {
+    [...BotUtils.findChannels<TextChannel>(TextChannel, id.pluginRequestBroadcast, id.textureRequestBroadcast)].map(channel => channel.messages).forEach(m => {
         const msg: Message = m.get(msgId);
         if (msg != null) promises.push(msg.delete(0))
     });

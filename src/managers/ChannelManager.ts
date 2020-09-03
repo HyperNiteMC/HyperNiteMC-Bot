@@ -156,11 +156,11 @@ const checkIdle = async (mem: GuildMember) => {
         console.log(`${mem.displayName} has restored its channel`);
         await mem.send(`你的頻道已被恢復。`);
         const tc: TextChannel = BotUtils.getGuild().channels.find(g => g.name.startsWith(mem.id) && g.type == 'text') as TextChannel;
-        tc.send(`此頻道已被恢復。`);
+        await tc.send(`此頻道已被恢復。`);
     } else {
         await mem.send(`已逾時，請自行到 ${BotUtils.getGuild().channels.get(room.commandRoom).name} 重新輸入指令。`);
         await Promise.all(delChannel(mem.user));
-        mem.send(`你的頻道已被刪除。`);
+        await mem.send(`你的頻道已被刪除。`);
     }
 };
 

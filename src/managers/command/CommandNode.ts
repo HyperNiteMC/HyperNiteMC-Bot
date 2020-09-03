@@ -50,41 +50,45 @@ abstract class CommandNode {
         return this._subCommands;
     }
 
-    public abstract execute(channel: TextChannel, guildMember: GuildMember, args: string[]): void;
+    public abstract async execute(channel: TextChannel, guildMember: GuildMember, args: string[]);
 
-    public invokeCommand(args: string[], channel: TextChannel, guildMember: GuildMember): void {
+    public async invokeCommand(args: string[], channel: TextChannel, guildMember: GuildMember) {
         if (args.length > 0) {
             for (const node of this._subCommands.values()) {
                 if (node.match(args[0])) {
                     args.shift();
                     const placeholders: string[] = this._placeholders.filter(s => s.startsWith("<") && s.endsWith(">"));
                     if (args.length < placeholders.length) {
-                        channel.send("缺少參數: ".concat(placeholders.join(' ')));
+                        channel.send("缺少參數: ".concat(placeholders.join(' '))).then();
                         return;
                     }
-                    node.invokeCommand(args, channel, guildMember);
+                    await node.invokeCommand(args, channel, guildMember);
                     return;
                 }
             }
         }
         if (!this._allowChannels.has(channel)) {
-            channel.send("此頻道無法使用此指令。");
+            await channel.send("此頻道無法使用此指令。");
             return;
         }
         if (!this.matchRole(guildMember)) {
-            channel.send("你沒有權限使用此指令。");
+            await channel.send("你沒有權限使用此指令。");
             return;
         }
         const placeholders: string[] = this._placeholders.filter(s => s.startsWith("<") && s.endsWith(">"));
         if (args.length < placeholders.length) {
-            channel.send("缺少參數: ".concat(placeholders.join(' ')));
+            await channel.send("缺少參數: ".concat(placeholders.join(' ')));
             return;
         }
         this.execute(channel, guildMember, args.map(s => s
             .replace("[", "")
             .replace("]", "")
             .replace("<", "")
-            .replace(">", "")));
+            .replace(">", "")))
+            .catch((err: Error) => {
+                console.error(err);
+                return channel.send(`Error -> ${err.name}: ${err.message}`)
+            });
     }
 
     public matchRole(member: GuildMember): boolean {
