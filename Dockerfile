@@ -1,6 +1,6 @@
 FROM node:12
 
-WORKDIR .
+WORKDIR /discord
 
 COPY package*.json ./
 
