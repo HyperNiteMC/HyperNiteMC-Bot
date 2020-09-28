@@ -2,6 +2,7 @@ import CommandNode from "../managers/command/CommandNode";
 import {GuildMember, RichEmbed, TextChannel} from "discord.js";
 import BotUtils from "../utils/BotUtils";
 import moment, {Moment} from "moment";
+import id from "../secret/id.json";
 
 export default class UpTimeCommand extends CommandNode {
 
@@ -23,6 +24,9 @@ export default class UpTimeCommand extends CommandNode {
                     value: launchMoment.fromNow()
                 }
             ],
+            footer: {
+                text: `HyperNiteMC 專用 bot 版本 ${id.botVersion}`
+            }
         });
         await channel.send(rich)
     }

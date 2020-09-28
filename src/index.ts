@@ -36,6 +36,7 @@ client.on('ready', () => {
 });
 
 client.on('message', m => {
+    if (m.webhookID) return; //if it is web hook
     if (Manager.invoke(m)) return;
     Promise.all([handleMessage(m), isIllegal(m)]).then(([, illegal]) => {
         if (illegal) {

@@ -1,6 +1,7 @@
 import CommandNode from "../managers/command/CommandNode";
 import {GuildMember, Message, RichEmbed, TextChannel} from "discord.js";
 import BotUtils from "../utils/BotUtils";
+import id from "../secret/id.json";
 
 export default class BetaCommand extends CommandNode {
 
@@ -58,7 +59,7 @@ const verify = async (mem: GuildMember) => {
             }
         ],
         footer: {
-            text: 'HyperNiteMC server',
+            text: `HyperNiteMC 專用 bot 版本 ${id.botVersion}`
         },
         timestamp: new Date()
     });

@@ -49,7 +49,10 @@ export const startRequest = async (mem: GuildMember, type: 'texture' | 'plugin')
                 name: '退出',
                 value: "欲退出委託新增，請輸入 **exit**"
             }
-        ]
+        ],
+        footer: {
+            text: `HyperNiteMC 專用 bot 版本 ${id.botVersion}`
+        }
     })).then(() => mem.send(`請輸入${type === 'plugin' ? '插件' : '材質'}名稱: `));
     requestMap.set(mem.id, type === 'plugin' ? new RequestedPlugin() : new RequestedTexture());
 };

@@ -1,11 +1,12 @@
 import CommandNode from "../../managers/command/CommandNode";
 import {GuildMember, TextChannel} from "discord.js";
+import id from "../../secret/id.json"
 import BotUtils from "../../utils/BotUtils";
 
 export default class PassCommand extends CommandNode {
 
     constructor(parent: CommandNode) {
-        super(parent, "pass", BotUtils.findChannels(TextChannel, '606838968398381098', '444038682366705664'), BotUtils.findRole('606838578789482506'), "通過指令", ["<是否為見習>", "<texture | plugin | builder>", "<玩家tag>"]);
+        super(parent, "pass", BotUtils.findChannels(TextChannel, '679612478908399627', '444038682366705664'), BotUtils.findRole(id.admin), "通過指令", ["<是否為見習>", "<texture | plugin | builder>", "<玩家tag>"]);
     }
 
     async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
@@ -40,7 +41,8 @@ export default class PassCommand extends CommandNode {
         }
 
         const run = async (): Promise<void> => {
-            await Promise.all([mem.addRole(intern ? '554215880616050691' : '313611459957358592'), mem.addRole(jobId)]);
+            await Promise.all([mem.addRole('313611459957358592'), mem.addRole(jobId)]);
+            if (intern) await mem.addRole('313611459957358592');
             await mem.removeRole('444038771042942987');
         };
 
