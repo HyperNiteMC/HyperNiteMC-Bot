@@ -19,7 +19,7 @@ const activate = () => {
         console.warn("The bot has not joined the HNMC Discord Guild! This bot will not activate.");
     } else {
         BotUtils.activate(client, guild);
-        console.log(`HyperNiteMC Discord Bot ${room.botVersion} has been activated.`)
+        console.log(`HyperNiteMC Discord Bot ${version} has been activated.`)
     }
 };
 
