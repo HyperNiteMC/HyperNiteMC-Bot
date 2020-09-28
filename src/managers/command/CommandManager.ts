@@ -1,6 +1,7 @@
 import CommandNode from "./CommandNode";
 import {Message, RichEmbed, TextChannel, User} from "discord.js";
 import BotUtils from "../../utils/BotUtils";
+import {version} from "../../index";
 
 const registerNodes: Set<CommandNode> = new Set<CommandNode>();
 
@@ -28,7 +29,7 @@ const help = (user: User): void => {
             url: 'https://github.com/eric2788'
         },
         footer: {
-            text: `HyperNiteMC 專用 bot`
+            text: `HyperNiteMC 專用 bot 版本 ${version}`
         }
     }))
 };

@@ -4,6 +4,7 @@ import BotUtils from "../../utils/BotUtils";
 import * as id from "../../secret/id.json"
 import RequestedPlugin from "./program/RequestedPlugin";
 import {Requested, RequestState} from "./RequestTypes";
+import {version} from "../../index"
 import RequestedTexture from "./program/RequestedTexture";
 
 
@@ -51,7 +52,7 @@ export const startRequest = async (mem: GuildMember, type: 'texture' | 'plugin')
             }
         ],
         footer: {
-            text: `HyperNiteMC 專用 bot 版本 ${id.botVersion}`
+            text: `HyperNiteMC 專用 bot 版本 ${version}`
         }
     })).then(() => mem.send(`請輸入${type === 'plugin' ? '插件' : '材質'}名稱: `));
     requestMap.set(mem.id, type === 'plugin' ? new RequestedPlugin() : new RequestedTexture());

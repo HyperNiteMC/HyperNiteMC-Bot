@@ -11,6 +11,8 @@ import connection from "./managers/MySQLManager";
 
 const client = new Discord.Client();
 
+export const version = "v0.0.10"
+
 const activate = () => {
     const guild: Guild = client.guilds.get(room.guild);
     if (guild == undefined) {

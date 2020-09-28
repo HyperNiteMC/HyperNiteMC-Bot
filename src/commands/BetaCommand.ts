@@ -1,7 +1,7 @@
 import CommandNode from "../managers/command/CommandNode";
 import {GuildMember, Message, RichEmbed, TextChannel} from "discord.js";
 import BotUtils from "../utils/BotUtils";
-import id from "../secret/id.json";
+import {version} from "../index"
 
 export default class BetaCommand extends CommandNode {
 
@@ -59,7 +59,7 @@ const verify = async (mem: GuildMember) => {
             }
         ],
         footer: {
-            text: `HyperNiteMC 專用 bot 版本 ${id.botVersion}`
+            text: `HyperNiteMC 專用 bot 版本 ${version}`
         },
         timestamp: new Date()
     });
@@ -75,8 +75,8 @@ const verify = async (mem: GuildMember) => {
         const date: Date = new Date();
         const localString: string = date.toLocaleString('zh-TW', {timeZone: 'Asia/Hong_Kong'});
         await (BotUtils.getGuild().channels.get('619120537406537738') as TextChannel).send(`${mem.user.tag} 在 ${localString} 成為了封測玩家。`);
-        mem.send(`你已成功申請成為封測玩家!`);
+        await mem.send(`你已成功申請成為封測玩家!`);
     } else {
-        mem.send(`已逾時，請重新申請。`);
+        await mem.send(`已逾時，請重新申請。`);
     }
 };

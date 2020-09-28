@@ -1,7 +1,7 @@
 import CommandNode from "./CommandNode";
 import * as Discord from "discord.js";
 import {GuildMember, Role, TextChannel} from "discord.js";
-import id from "../../secret/id.json"
+import {version} from "../../index"
 import HelpListBuilder from "./HelpListBuilder";
 
 abstract class DefaultCommand extends CommandNode {
@@ -35,7 +35,7 @@ abstract class DefaultCommand extends CommandNode {
                 value: help2.join('\n')
             }],
             footer: {
-                text: `HyperNiteMC 專用 bot 版本 ${id.botVersion}`
+                text: `HyperNiteMC 專用 bot 版本 ${version}`
             }
 
         });
