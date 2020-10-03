@@ -1,4 +1,4 @@
-import {DMChannel, GuildMember, Message, RichEmbed, Snowflake, TextChannel} from "discord.js";
+import {DMChannel, GuildMember, Message, MessageEmbed, Snowflake, TextChannel} from "discord.js";
 import {Requester} from "../../entity/Entites";
 import BotUtils from "../../utils/BotUtils";
 import * as id from "../../secret/id.json"
@@ -40,7 +40,7 @@ export const handleMessage = async (message: Message) => {
 };
 
 export const startRequest = async (mem: GuildMember, type: 'texture' | 'plugin') => {
-    mem.send(new RichEmbed({
+    mem.send(new MessageEmbed({
         fields: [
             {
                 name: "注意事項",
@@ -61,8 +61,8 @@ export const startRequest = async (mem: GuildMember, type: 'texture' | 'plugin')
 const delRequestMessage = (msgId: Snowflake) => {
     const promises = [];
     [...BotUtils.findChannels<TextChannel>(TextChannel, id.pluginRequestBroadcast, id.textureRequestBroadcast)].map(channel => channel.messages).forEach(m => {
-        const msg: Message = m.get(msgId);
-        if (msg != null) promises.push(msg.delete(0))
+        const msg: Message = m.cache.get(msgId);
+        if (msg != null) promises.push(msg.delete({timeout: 0}))
     });
     return Promise.all(promises);
 };

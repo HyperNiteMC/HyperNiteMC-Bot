@@ -24,7 +24,7 @@ abstract class DefaultCommand extends CommandNode {
             builder.append(subCommand);
         }
         const help2: string[] = builder.helps;
-        const richembed = new Discord.RichEmbed({
+        const richembed = new Discord.MessageEmbed({
             author: {
                 name: `HyperNiteMC Discord Bot`,
                 url: 'https://github.com/eric2788'

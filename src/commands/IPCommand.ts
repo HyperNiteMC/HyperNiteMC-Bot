@@ -10,7 +10,7 @@ export default class IPCommand extends CommandNode {
     }
 
     async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
-        await channel.send(info.ip.replace(`<tag>`, `${BotUtils.getGuild().channels.get('586556883473661982').name}`));
+        await channel.send(info.ip.replace(`<tag>`, `${BotUtils.getGuild().channels.cache.get('586556883473661982').name}`));
     }
 
 }

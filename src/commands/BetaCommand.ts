@@ -1,5 +1,5 @@
 import CommandNode from "../managers/command/CommandNode";
-import {GuildMember, Message, RichEmbed, TextChannel} from "discord.js";
+import {GuildMember, Message, MessageEmbed, TextChannel} from "discord.js";
 import BotUtils from "../utils/BotUtils";
 import {version} from "../index"
 
@@ -10,7 +10,7 @@ export default class BetaCommand extends CommandNode {
     }
 
     async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
-        if (guildMember.roles.has('618853616089825281')) {
+        if (guildMember.roles.cache.has('618853616089825281')) {
             await channel.send(`你已經是封測玩家了。`)
         } else {
             await verify(guildMember)
@@ -20,7 +20,7 @@ export default class BetaCommand extends CommandNode {
 }
 
 const verify = async (mem: GuildMember) => {
-    const embed: RichEmbed = new RichEmbed({
+    const embed: MessageEmbed = new MessageEmbed({
         color: 3447003,
         author: {
             name: '申請封測前注意事項。',
@@ -71,10 +71,10 @@ const verify = async (mem: GuildMember) => {
         maxEmojis: 1,
     });
     if (col.size) {
-        await mem.addRole('618853616089825281', '成功申請成為封測玩家');
+        await mem.roles.add('618853616089825281', '成功申請成為封測玩家');
         const date: Date = new Date();
         const localString: string = date.toLocaleString('zh-TW', {timeZone: 'Asia/Hong_Kong'});
-        await (BotUtils.getGuild().channels.get('619120537406537738') as TextChannel).send(`${mem.user.tag} 在 ${localString} 成為了封測玩家。`);
+        await (BotUtils.getGuild().channels.cache.get('619120537406537738') as TextChannel).send(`${mem.user.tag} 在 ${localString} 成為了封測玩家。`);
         await mem.send(`你已成功申請成為封測玩家!`);
     } else {
         await mem.send(`已逾時，請重新申請。`);

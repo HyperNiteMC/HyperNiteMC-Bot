@@ -1,5 +1,5 @@
 import CommandNode from "../managers/command/CommandNode";
-import {GuildMember, RichEmbed, TextChannel} from "discord.js";
+import {GuildMember, MessageEmbed, TextChannel} from "discord.js";
 import BotUtils from "../utils/BotUtils";
 import moment, {Moment} from "moment";
 import {version} from "../index"
@@ -13,7 +13,7 @@ export default class UpTimeCommand extends CommandNode {
     async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
         const launch: Date = BotUtils.getActivateTime();
         const launchMoment: Moment = moment(launch);
-        const rich: RichEmbed = new RichEmbed({
+        const rich = new MessageEmbed({
             fields: [
                 {
                     name: '此 Bot 上次啟動時間',

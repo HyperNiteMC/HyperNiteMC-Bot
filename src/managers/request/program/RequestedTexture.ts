@@ -1,5 +1,5 @@
 import {Requested, RequestState} from "../RequestTypes";
-import {Message, RichEmbed, TextChannel, User} from "discord.js";
+import {Message, MessageEmbed, TextChannel, User} from "discord.js";
 import * as id from "../../../secret/id.json"
 import BotUtils from "../../../utils/BotUtils";
 import {Requester} from "../../../entity/Entites";
@@ -65,12 +65,12 @@ export default class RequestedTexture implements Requested {
     }
 
     async sendChannel(user: User) {
-        const embed: RichEmbed = new RichEmbed({
+        const embed: MessageEmbed = new MessageEmbed({
             title: `${user.tag} 的材質委託`,
             timestamp: new Date(),
             author: {
                 name: user.tag,
-                icon_url: user.avatarURL
+                icon_url: user.avatarURL({dynamic: true})
             },
             fields: [
                 {
@@ -102,7 +102,7 @@ export default class RequestedTexture implements Requested {
                 text: `若材質設計師們有興趣，歡迎輸入 !request accept texture ${user.tag} 指令來接受委託`,
             },
         });
-        this._message = await (BotUtils.getGuild().channels.get(id.textureRequestBroadcast) as TextChannel).send(embed) as Message;
+        this._message = await (BotUtils.getGuild().channels.cache.get(id.textureRequestBroadcast) as TextChannel).send(embed) as Message;
         const requester = new Requester()
         requester.userId = user.id
         requester.msgId = this._message.id

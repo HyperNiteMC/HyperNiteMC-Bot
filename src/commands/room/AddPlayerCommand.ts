@@ -10,7 +10,7 @@ export default class AddPlayerCommand extends CommandNode {
     }
 
     async execute(channel: TextChannel, guildMember: GuildMember, args: string[]) {
-        const mem: GuildMember = BotUtils.getGuild().members.get(!args[0].startsWith('@') ? args[0] : args[0].substr(1));
+        const mem: GuildMember = BotUtils.getGuild().members.cache.get(!args[0].startsWith('@') ? args[0] : args[0].substr(1));
         if (mem == undefined) {
             await channel.send(`${guildMember.user.tag} 找不到對象。`);
             return;

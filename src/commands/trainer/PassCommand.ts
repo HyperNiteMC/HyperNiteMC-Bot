@@ -28,22 +28,23 @@ export default class PassCommand extends CommandNode {
                 await channel.send(this.placeholders[1].toString());
                 return;
         }
-        const mem: GuildMember = BotUtils.getGuild().members.get(args[2].startsWith('@') ? args[2].substr(1) : args[2]);
+        const mem: GuildMember = BotUtils.getGuild().members.cache.get(args[2].startsWith('@') ? args[2].substr(1) : args[2]);
         if (mem == undefined) {
             await channel.send(guildMember.user.tag + " 找不到對象。");
             return;
         } else if (mem.id === guildMember.id) {
             await channel.send(guildMember.user.tag + " 對象無法為自己!");
             return;
-        } else if (mem.roles.get('444038771042942987') == undefined) {
+        } else if (!mem.roles.cache.has('444038771042942987')) {
             await channel.send(guildMember.user.tag + " 該對象不是考核/面試對象。");
             return;
         }
 
         const run = async (): Promise<void> => {
-            await Promise.all([mem.addRole('313611459957358592'), mem.addRole(jobId)]);
-            if (intern) await mem.addRole('313611459957358592');
-            await mem.removeRole('444038771042942987');
+            const toAdd = ['313611459957358592', jobId];
+            if (intern) toAdd.push('313611459957358592');
+            await mem.roles.add(toAdd);
+            await mem.roles.remove('444038771042942987');
         };
 
         await run()

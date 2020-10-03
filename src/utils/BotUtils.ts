@@ -18,8 +18,8 @@ class Bot {
 
     constructor(client: Client, guild: Guild) {
         this._guild = guild;
-        Bot._textChannels = new Set<TextChannel>([...guild.channels.values()].filter(ch => ch.type === 'text').map(ch => ch as TextChannel));
-        Bot._roles = new Set<Role>(guild.roles.values());
+        Bot._textChannels = new Set<TextChannel>([...guild.channels.cache.values()].filter(ch => ch.type === 'text').map(ch => ch as TextChannel));
+        Bot._roles = new Set<Role>(guild.roles.cache.values());
     }
 
     private static _textChannels: Set<TextChannel> = new Set<TextChannel>();
@@ -62,7 +62,7 @@ const activate = (client: Client, guild: Guild): void => {
         Bot.onActivate();
     }
     client.user.setPresence({
-        game: {
+        activity: {
             name: 'BingoMC伺服器片段',
             url: 'https://www.youtube.com/results?search_query=bingomc',
             type: "WATCHING"
@@ -90,13 +90,13 @@ const getGuild = (): Guild => {
 };
 
 const getCommandChannels = (): Set<TextChannel> => {
-    return new Set<TextChannel>(getGuild().channels.filter(g => g.name.includes(`指令`) && g instanceof TextChannel).map(g => g as TextChannel));
+    return new Set<TextChannel>(getGuild().channels.cache.filter(g => g.name.includes(`指令`) && g instanceof TextChannel).map(g => g as TextChannel));
 };
 
 const findChannels = <T extends GuildChannel>(type: typeof GuildChannel, ...id: string[]): Set<T> => {
     const channels: Set<T> = new Set<T>();
     for (let d of id) {
-        const gc: GuildChannel = BotUtils.getGuild().channels.get(d);
+        const gc: GuildChannel = BotUtils.getGuild().channels.cache.get(d);
         if (gc != undefined && gc instanceof type) channels.add(gc as T);
     }
     return channels;
@@ -105,7 +105,7 @@ const findChannels = <T extends GuildChannel>(type: typeof GuildChannel, ...id: 
 const findRole = (...id: string[]): Set<Role> => {
     let roles: Set<Role> = new Set<Role>();
     for (let d of id) {
-        const role: Role = BotUtils.getGuild().roles.get(d);
+        const role: Role = BotUtils.getGuild().roles.cache.get(d);
         if (d != undefined) roles.add(role);
     }
     return roles;

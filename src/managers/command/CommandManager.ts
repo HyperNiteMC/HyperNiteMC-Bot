@@ -1,5 +1,5 @@
 import CommandNode from "./CommandNode";
-import {Message, RichEmbed, TextChannel, User} from "discord.js";
+import {Message, MessageEmbed, TextChannel, User} from "discord.js";
 import BotUtils from "../../utils/BotUtils";
 import {version} from "../../index";
 
@@ -19,7 +19,7 @@ const remove = (node: CommandNode) => {
 
 const help = (user: User): void => {
     const helpmsg: string[] = [...registerNodes].map(node => `!${node.command} - ${node.description}`);
-    user.send(new RichEmbed({
+    user.send(new MessageEmbed({
         fields: [{
             name: '可用指令： ',
             value: helpmsg.join('\n'),
@@ -47,7 +47,7 @@ const invoke = (msg: Message): boolean => {
         if (node.match(command)) {
             if (!(msg.channel instanceof TextChannel)) return false;
             const channel: TextChannel = msg.channel as TextChannel;
-            BotUtils.getGuild().fetchMember(msg.member).then(mem => node.invokeCommand(args, channel, mem)).catch(r => {
+            BotUtils.getGuild().members.fetch(msg.member).then(mem => node.invokeCommand(args, channel, mem)).catch(r => {
                 const err: Error = r as Error;
                 console.error(err);
                 return channel.send(`[出現錯誤] ${err.name}: ${err.message}, 請確保你的賬戶狀態為線上。`)

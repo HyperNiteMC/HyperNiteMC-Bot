@@ -1,5 +1,5 @@
 import {Requested, RequestState} from "../RequestTypes";
-import {Message, RichEmbed, TextChannel, User} from "discord.js";
+import {Message, MessageEmbed, TextChannel, User} from "discord.js";
 import BotUtils from "../../../utils/BotUtils";
 import * as id from "../../../secret/id.json";
 import {Requester} from "../../../entity/Entites";
@@ -78,12 +78,12 @@ export default class RequestedPlugin implements Requested {
     }
 
     async sendChannel(user: User) {
-        const embed: RichEmbed = new RichEmbed({
+        const embed: MessageEmbed = new MessageEmbed({
             title: `${user.tag} 的插件委託`,
             timestamp: new Date(),
             author: {
                 name: user.tag,
-                icon_url: user.avatarURL
+                icon_url: user.avatarURL({dynamic: true})
             },
             fields: [
                 {
@@ -123,7 +123,7 @@ export default class RequestedPlugin implements Requested {
                 text: `若插件師們有興趣，歡迎輸入 !request accept plugin ${user.tag} 指令來接受委託`,
             },
         });
-        this._message = await (BotUtils.getGuild().channels.get(id.pluginRequestBroadcast) as TextChannel).send(embed) as Message;
+        this._message = await (BotUtils.getGuild().channels.cache.get(id.pluginRequestBroadcast) as TextChannel).send(embed) as Message;
         let requester = new Requester();
         requester.userId = user.id;
         requester.msgId = this._message.id;

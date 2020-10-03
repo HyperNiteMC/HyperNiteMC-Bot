@@ -92,7 +92,7 @@ abstract class CommandNode {
     }
 
     public matchRole(member: GuildMember): boolean {
-        return [...this._allowRoles].some(role => member.highestRole.comparePositionTo(role) > -1);
+        return [...this._allowRoles].some(role => member.roles.highest.comparePositionTo(role) > -1);
     }
 
     public match(arg: string): boolean {
