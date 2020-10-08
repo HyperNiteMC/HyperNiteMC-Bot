@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-VOLUME /src/secret
+VOLUME /discord/src/secret
 
 CMD [ "npm", "run", "start" ]
