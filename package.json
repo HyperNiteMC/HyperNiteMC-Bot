@@ -4,7 +4,7 @@
   "description": "Test shit bot",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node --project tsconfig.json src/index.ts",
+    "start": "ts-node --project tsconfig.json ./src/index.ts",
     "build": "tsc -b -w src"
   },
   "keywords": [],
