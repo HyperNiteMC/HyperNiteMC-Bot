@@ -29,10 +29,10 @@ const debug = () => {
 async function initialize() {
     console.log("testing login with token...")
     await client.login(auth.token)
-    console.log("tested successful")
+    console.log("tested successful for login with token")
     console.log("testing connect to mysql...")
     await connection()
-    console.log("tested successful")
+    console.log("tested successful for connect to mysql")
 }
 
 initialize().catch(err => {
