@@ -11,7 +11,7 @@ import connection from "./managers/MySQLManager";
 
 const client = new Discord.Client();
 
-export const version = "v0.0.12"
+export const version = "v0.0.13"
 
 const activate = () => {
     const guild: Guild = client.guilds.cache.get(room.guild);
@@ -51,32 +51,22 @@ client.on('message', m => {
     });
 });
 
-client.on('messageReactionAdd', (rea, user) => {
+client.on('messageReactionAdd', async (rea, user) => {
     if (rea.message.channel.id == '617330086789775400') {
         const msg: Message = rea.message;
         if (msg.author !== user) {
-            Promise.all(msg.reactions.cache.filter(r => !r.users.cache.size).map(r => r.users.fetch())).then(() => {
-                if (msg.reactions.cache.some(r => r.users.resolve(user.id) !== null && rea.emoji.name != r.emoji.name)) {
-                    rea.users.remove(user.id).then(() => console.log(`已刪除重複投票用戶 ${user.username} 上一張的投票。`))
-                }
-
-                /*
-                const voted = []
-                msg.reactions.cache.forEach(reaction => {
-                    reaction.users.cache.forEach(u => {
-                        if (voted.includes(u.id)) {
-                            reaction.users.remove(u.id).then(() => console.log(`已刪除重複投票用戶 ${u.username} 的投票`))
-                        }else{
-                            voted.push(u.id)
-                        }
-                    })
-                })
-
-                 */
-            })
+            console.log(`正在檢測投票者 ${user?.username} 的投票狀態...`)
+            if (user == undefined) {
+                console.log('投票者為 null， 略過投票')
+                await rea.users.remove(user?.id)
+                return
+            }
+            await Promise.all(msg.reactions.cache.filter(r => !r.users.cache.size).map(r => r.users.fetch()))
+            if (msg.reactions.cache.some(r => r.users.cache.get(user?.id) !== null && rea.emoji.name != r.emoji.name)) {
+                await rea.users.remove(user.id)
+                console.log(`已刪除重複投票用戶 ${user.username} 上一張的投票。`)
+            }
         }
-
-
     }
 });
 

@@ -52,7 +52,7 @@ jobs:
           npm install
           npm run debug
   publish-image-to-docker-registry:
-    name: publish-to-docker-registry
+    name: Publish image to docker
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
