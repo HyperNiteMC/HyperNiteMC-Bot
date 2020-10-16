@@ -33,11 +33,12 @@ jobs:
           mkdir src/secret
           echo "before create"
           ls -la src/secret
-          echo "${{ env.auth_json }}" > src/secret/auth.json
-          echo "${{ env.chat_json }}" > src/secret/chat.json
-          echo "${{ env.id_json }}" > src/secret/id.json
-          echo "${{ env.ip_json }}" > src/secret/ip.json
-          echo "${{ env.mysql_json }}" > src/secret/mysql.json
+          echo '${{ env.id_json }}'
+          echo '${{ env.auth_json }}' > src/secret/auth.json
+          echo '${{ env.chat_json }}' > src/secret/chat.json
+          echo '${{ env.id_json }}' > src/secret/id.json
+          echo '${{ env.ip_json }}' > src/secret/ip.json
+          echo '${{ env.mysql_json }}' > src/secret/mysql.json
           echo "after create"
           ls -la src/secret
       - name: Setup Node.js environment
