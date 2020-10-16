@@ -51,4 +51,19 @@ jobs:
         run: |
           npm install
           npm run debug
+  publish-image-to-docker-registry:
+    name: publish-to-docker-registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to Registry
+        uses: docker/build-push-action@v1
+        with:
+          registry: registry.chu77.xyz
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: hnmc-discordbot
+          tags: latest
+          push: true
 
