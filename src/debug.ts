@@ -5,19 +5,18 @@ import auth from "./secret/auth.json";
 import room from './secret/id.json';
 import './managers/MySQLManager'
 import connection from "./managers/MySQLManager";
+import {version} from "./index";
 
 const client = new Discord.Client();
-
-export const version = "v0.0.12"
 
 const debug = () => {
     const guild: Guild = client.guilds.cache.get(room.guild);
     if (guild == undefined) {
-        console.warn("The bot has not joined the HNMC Discord Guild!");
+        console.error("The bot has not joined the HNMC Discord Guild!");
         process.exit(1);
     } else {
         BotUtils.activate(client, guild);
-        console.log(`HyperNiteMC Discord Bot ${version} has successfully tested`)
+        console.log(`HyperNiteMC Discord Bot ${version} has been successfully tested`)
         process.exit(0);
     }
 };
@@ -26,7 +25,7 @@ client.login(auth.token)
     .then(() => connection().catch(console.error))
     .catch(r => {
         if (r instanceof Error) {
-            console.warn(r.message);
+            console.error(r.message);
             process.exit(1);
         }
     });
