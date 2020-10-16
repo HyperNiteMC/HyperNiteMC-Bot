@@ -7,7 +7,8 @@ const options: ConnectionOptions = {
     type: 'mysql',
     entities: [
         Requester
-    ]
+    ],
+    synchronize: true
 };
 
 let con: Connection = null
@@ -15,9 +16,7 @@ let con: Connection = null
 const connection = async () => {
     console.log('connecting to mysql...')
     con = await createConnection(options);
-    await con.synchronize();
     console.log('mysql connected.')
-    return con;
 };
 
 export default connection;
