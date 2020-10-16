@@ -63,6 +63,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: hnmc-discordbot
-          tags: docker/hnmc-discordbot:latest
+          tags: latest
           push: true
 
