@@ -1,14 +1,21 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Test Discord Bot
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ master, test/workflows ]
   pull_request:
     branches: [ master ]
+
+env:
+  auth_json: ${{ secret.AUTH_JSON }}
+  chat_json: ${{ secret.CHAT_JSON }}
+  id_json: ${{ secret.ID_JSON }}
+  ip_json: ${{ secret.IP_JSON }}
+  mysql_json: ${{ secret.MYSQL_JSON }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,7 +28,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - name: Create Secret Directory
+        run: |
+          mkdir src/secret
+          echo "before create"
+          ls -la src/secret
+          echo ${{ env.auth_json }} > src/secret/auth.json
+          echo ${{ env.chat_json }} > src/secret/chat.json
+          echo ${{ env.id_json }} > src/secret/id.json
+          echo ${{ env.ip_json }} > src/secret/ip.json
+          echo ${{ env.mysql_json }} > src/secret/mysql.json
+          echo "after create"
+          ls -la src/secret
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
         with:
