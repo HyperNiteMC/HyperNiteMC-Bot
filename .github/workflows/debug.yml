@@ -33,7 +33,6 @@ jobs:
           mkdir src/secret
           echo "before create"
           ls -la src/secret
-          echo '${{ env.id_json }}'
           echo '${{ env.auth_json }}' > src/secret/auth.json
           echo '${{ env.chat_json }}' > src/secret/chat.json
           echo '${{ env.id_json }}' > src/secret/id.json
@@ -51,5 +50,5 @@ jobs:
       - name: Test Program
         run: |
           npm install
-          npm run github
+          npm run start
 
