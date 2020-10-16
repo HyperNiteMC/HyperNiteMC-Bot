@@ -60,8 +60,9 @@ jobs:
         uses: docker/build-push-action@v1
         with:
           registry: https://registry.chu77.xyz
+          repository: docker/hnmc-discordbot
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: hnmc-discordbot:latest
+          tags: latest
           push: true
 
