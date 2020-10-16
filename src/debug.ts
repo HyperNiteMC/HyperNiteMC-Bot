@@ -25,18 +25,20 @@ const debug = () => {
     }
 };
 
-console.log("testing login with token...")
-client.login(auth.token)
-    .then(() => {
-        console.log("tested successful")
-        console.log("testing connecting to mysql...")
-        return connection()
-    })
-    .then(() => console.log("tested successful"))
-    .catch(err => {
-        console.error(err);
-        process.exit(1);
-    })
+
+async function initialize() {
+    console.log("testing login with token...")
+    await client.login(auth.token)
+    console.log("tested successful")
+    console.log("testing connect to mysql...")
+    await connection()
+    console.log("tested successful")
+}
+
+initialize().catch(err => {
+    console.error(err);
+    process.exit(1);
+})
 
 
 client.on('ready', () => {
