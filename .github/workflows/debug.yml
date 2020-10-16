@@ -50,5 +50,5 @@ jobs:
       - name: Test Program
         run: |
           npm install
-          npm run start
+          npm run debug
 
