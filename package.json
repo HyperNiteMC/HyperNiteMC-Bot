@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node --project tsconfig.json src/index.ts",
+    "github": "ts-node --project tsconfig.json src/test.ts",
     "build": "tsc -b -w src"
   },
   "keywords": [],
