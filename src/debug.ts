@@ -18,8 +18,8 @@ const debug = () => {
         BotUtils.activate(client, guild);
         console.log(`HyperNiteMC Discord Bot ${version} has been successfully tested`)
         console.log('closing mysql connection')
-        close().then(() => console.log('successfully closed'));
-        process.exit(0);
+        close().then(() => console.log('successfully closed')).finally(() => process.exit(0));
+
     }
 };
 
