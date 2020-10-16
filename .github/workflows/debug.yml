@@ -11,11 +11,11 @@ on:
     branches: [ master ]
 
 env:
-  auth_json: ${{ secret.AUTH_JSON }}
-  chat_json: ${{ secret.CHAT_JSON }}
-  id_json: ${{ secret.ID_JSON }}
-  ip_json: ${{ secret.IP_JSON }}
-  mysql_json: ${{ secret.MYSQL_JSON }}
+  auth_json: ${{ secrets.AUTH_JSON }}
+  chat_json: ${{ secrets.CHAT_JSON }}
+  id_json: ${{ secrets.ID_JSON }}
+  ip_json: ${{ secrets.IP_JSON }}
+  mysql_json: ${{ secrets.MYSQL_JSON }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -33,11 +33,11 @@ jobs:
           mkdir src/secret
           echo "before create"
           ls -la src/secret
-          echo ${{ env.auth_json }} > src/secret/auth.json
-          echo ${{ env.chat_json }} > src/secret/chat.json
-          echo ${{ env.id_json }} > src/secret/id.json
-          echo ${{ env.ip_json }} > src/secret/ip.json
-          echo ${{ env.mysql_json }} > src/secret/mysql.json
+          echo "${{ env.auth_json }}" > src/secret/auth.json
+          echo "${{ env.chat_json }}" > src/secret/chat.json
+          echo "${{ env.id_json }}" > src/secret/id.json
+          echo "${{ env.ip_json }}" > src/secret/ip.json
+          echo "${{ env.mysql_json }}" > src/secret/mysql.json
           echo "after create"
           ls -la src/secret
       - name: Setup Node.js environment
@@ -49,6 +49,7 @@ jobs:
           check-latest: true
       - name: Test Program
         run: |
+          npm update
           npm install
           npm run start
           
