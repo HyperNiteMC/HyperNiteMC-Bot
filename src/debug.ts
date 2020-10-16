@@ -5,7 +5,6 @@ import auth from "./secret/auth.json";
 import room from './secret/id.json';
 import './managers/MySQLManager'
 import connection, {close} from "./managers/MySQLManager";
-import {version} from "./index";
 
 const client = new Discord.Client();
 
@@ -16,7 +15,7 @@ const debug = () => {
         process.exit(1);
     } else {
         BotUtils.activate(client, guild);
-        console.log(`HyperNiteMC Discord Bot ${version} has been successfully tested`)
+        console.log(`HyperNiteMC Discord Bot has been successfully tested`)
         console.log('closing mysql connection')
         close().then(() => console.log('successfully closed')).finally(() => process.exit(0));
 
